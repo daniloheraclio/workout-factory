@@ -3,13 +3,12 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './assets/css/style.css';
-import firebase from 'firebase/app';
-import './firebaseInit';
+import { auth } from './firebase';
+
+Vue.config.productionTip = false;
 
 let app;
-
-firebase.auth().onAuthStateChanged((user) => {
-  console.log('user from main.js', user);
+auth.onAuthStateChanged((user) => {
   if (!app) {
     app = new Vue({
       router,
@@ -17,6 +16,8 @@ firebase.auth().onAuthStateChanged((user) => {
       render: (h) => h(App),
     }).$mount('#app');
   }
-});
 
-Vue.config.productionTip = false;
+  if (!user) {
+    router.push({ path: '/login' }).catch(() => {});
+  }
+});
