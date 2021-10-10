@@ -1,45 +1,19 @@
 <template>
-  <div id="app" class="container mx-auto">
-    <nav
-      v-if="hasUser"
-      class="
-        flex
-        justify-between
-        items-center
-        h-16
-        px-4
-        bg-indigo-400
-        text-indigo-100
-        antialiased
-        font-semibold
-      "
-    >
-      <div>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
+  <div class="container mx-auto w-screen h-screen flex">
+    <div class="flex max-h-90% w-screen my-14 rounded-2xl bg-white">
+      <Nav v-if="hasUser" @sign-out="signOut" />
+      <div class="w-full flex bg-gray-50 rounded-r-2xl">
+        <router-view />
       </div>
-      <a
-        @click="signOut"
-        class="
-          text-sm text-gray-700
-          cursor-pointer
-          rounded
-          py-2
-          px-3
-          bg-indigo-200
-          font-semibold
-          hover:bg-indigo-100
-        "
-        >Sign out</a
-      >
-    </nav>
-    <router-view />
+    </div>
   </div>
 </template>
 <script>
 import * as fb from './firebase';
+import Nav from './components/Nav.vue';
 
 export default {
+  components: { Nav },
   data() {
     return {
       hasUser: false,
@@ -67,3 +41,8 @@ export default {
   },
 };
 </script>
+<style>
+html {
+  background-color: #e8e9f0;
+}
+</style>
