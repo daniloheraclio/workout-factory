@@ -1,8 +1,11 @@
 <template>
-  <div class="container mx-auto w-screen h-screen flex">
-    <div class="flex max-h-90% w-screen my-14 rounded-2xl bg-white">
+  <div class="container mx-auto w-screen md:h-screen lg:min-h-screen flex">
+    <div class="flex lg:max-h-90% w-screen my-14 rounded-2xl bg-white round">
       <Nav v-if="hasUser" @sign-out="signOut" />
-      <div class="w-full flex bg-gray-50 rounded-r-2xl">
+      <div
+        class="w-full flex bg-gray-50 rounded-2xl"
+        :class="{ 'rounded-l-none': hasUser }"
+      >
         <router-view />
       </div>
     </div>
