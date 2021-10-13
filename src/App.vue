@@ -1,11 +1,29 @@
 <template>
-  <div class="container mx-auto w-screen md:h-screen lg:min-h-screen flex">
-    <div class="flex lg:max-h-90% w-screen my-14 rounded-2xl bg-white round">
-      <Nav v-if="hasUser" @sign-out="signOut" />
+  <div
+    class="
+      antialiased
+      container
+      mx-auto
+      w-screen
+      md:h-screen
+      lg:min-h-screen
+      flex
+    "
+  >
+    <div
+      @click="toggleOpen"
+      class="relative z-0 w-screen md:my-14 rounded-2xl round"
+    >
       <div
-        class="w-full flex bg-gray-50 rounded-2xl"
-        :class="{ 'rounded-l-none': hasUser }"
+        class="absolute inset-0 z-10"
+        :class="{
+          'transform -translate-x-0': isOpen,
+          'transform -translate-x-full': !isOpen,
+        }"
       >
+        <Nav v-if="true" @on-click="toggleOpen" @sign-out="signOut" />
+      </div>
+      <div class="w-full flex bg-gray-50 rounded-2xl">
         <router-view />
       </div>
     </div>
@@ -20,6 +38,7 @@ export default {
   data() {
     return {
       hasUser: false,
+      isOpen: false,
     };
   },
   created() {
@@ -40,6 +59,10 @@ export default {
     async signOut() {
       await fb.auth.signOut();
       this.$store.commit('SET_USER_PROFILE', {});
+    },
+    toggleOpen(ev) {
+      console.log(ev, this.isOpen);
+      this.isOpen = !this.isOpen;
     },
   },
 };

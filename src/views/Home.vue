@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full lg:p-6 sm:p-2">
+  <div class="flex flex-col w-full lg:p-6 p-4">
     <div class="w-full flex items-center justify-between mb-6">
       <p class="text-2xl text-purple-800 font-semibold">Dashboard</p>
       <div
@@ -7,7 +7,7 @@
           flex
           items-center
           w-78
-          pr-4
+          md:pr-4
           py-1
           pl-2
           bg-white
@@ -20,7 +20,9 @@
           alt="user photo"
           class="rounded-lg w-8 h-8 mr-2"
         />
-        <p class="text-sm font-bold text-purple-900">{{ userProfile.name }}</p>
+        <p class="hidden md:block text-sm font-bold text-purple-900">
+          {{ userProfile.name }}
+        </p>
       </div>
     </div>
     <div class="grid lg:grid-cols-3 grid-cols-1 gap-x-4 h-screen">
@@ -49,15 +51,15 @@
           <div class="bg-white h-36 rounded-xl flex flex-col shadow-sm">
             <div>Icone</div>
             <div>Title</div>
-            <div>Progress Bar</div>
+            <div>Progress Bar component</div>
           </div>
           <div class="bg-white h-36 rounded-xl shadow-sm">2</div>
           <div class="bg-white h-36 rounded-xl shadow-sm">3</div>
           <div class="bg-white h-36 rounded-xl shadow-sm">4</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
-          <div class="bg-white rounded-xl h-96">Left</div>
-          <div class="bg-white rounded-xl h-96">Right</div>
+          <div class="bg-white rounded-xl">Left</div>
+          <div class="bg-white rounded-xl">Right</div>
         </div>
       </div>
 
