@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen">
     <!-- Mobile -->
-    <div v-if="isSidebarOpen" class="fixed inset-0 z-40">
+    <div v-if="isSidebarOpen" class="fixed inset-0 z-40 md:hidden">
       <div
         class="
           flex flex-col
@@ -15,6 +15,7 @@
         "
       >
         <button
+          @click="isSidebarOpen = false"
           class="absolute top-2 right-2 focus:text-gray-800 focus:outline-none"
         >
           <IconX class="w-5 h-5 text-gray-500" />
@@ -64,7 +65,10 @@
     </div>
     <div class="flex-1">
       <div class="flex justify-between items-center">
-        <IconMenu class="w-5 h-5 text-gray-500 md:hidden" />
+        <IconMenu
+          @click.native="isSidebarOpen = true"
+          class="w-5 h-5 text-gray-500 md:hidden"
+        />
         <img
           class="w-10 h-auto rounded-lg md:ml-auto"
           :src="userProfile.photoURL"
