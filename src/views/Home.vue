@@ -1,79 +1,101 @@
 <template>
-  <div class="flex flex-col w-full lg:p-6 p-4">
-    <div class="w-full flex items-center justify-between mb-6">
-      <p class="text-2xl text-purple-800 font-semibold">Dashboard</p>
+  <div class="flex min-h-screen">
+    <!-- Mobile -->
+    <div v-if="isSidebarOpen" class="fixed inset-0 z-40">
       <div
         class="
-          flex
-          items-center
-          w-78
-          md:pr-4
-          py-1
-          pl-2
-          bg-white
-          rounded-lg
-          cursor-pointer
+          flex flex-col
+          md:hidden
+          relative
+          z-10
+          h-full
+          w-72
+          bg-gray-50
+          border-r border-gray-400
         "
       >
-        <img
-          :src="userProfile.photoURL"
-          alt="user photo"
-          class="rounded-lg w-8 h-8 mr-2"
-        />
-        <p class="hidden md:block text-sm font-bold text-purple-900">
-          {{ userProfile.name }}
-        </p>
+        <button
+          class="absolute top-2 right-2 focus:text-gray-800 focus:outline-none"
+        >
+          <IconX class="w-5 h-5 text-gray-500" />
+        </button>
+        <div class="pt-12 pb-6 px-6">
+          <a href="#" class="text-xl text-purple-700 font-bold"
+            >WORKOUTFACTORY</a
+          >
+        </div>
+        <div class="overflow-y-auto flex-1">
+          <div class="mb-5 px-6">
+            <router-link
+              v-for="(item, index) in menuItems"
+              :key="index"
+              :to="item.url"
+              class="flex items-center mb-5"
+            >
+              <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
+              <h3 class="text-sm text-gray-500 uppercase tracking-widest">
+                {{ item.label }}
+              </h3>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-50"></div>
+    </div>
+
+    <!--  Desktop -->
+    <div class="hidden md:block w-64 bg-gray-50 border-r border-gray-200">
+      <div class="py-4 px-6">
+        <a href="#" class="text-xl text-purple-700 font-bold">WORKOUTFACTORY</a>
+      </div>
+      <div class="mb-5 px-6">
+        <router-link
+          v-for="(item, index) in menuItems"
+          :key="index"
+          :to="item.url"
+          class="flex items-center mb-5"
+        >
+          <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
+          <h3 class="text-sm text-gray-500 uppercase tracking-widest">
+            {{ item.label }}
+          </h3>
+        </router-link>
       </div>
     </div>
-    <div class="grid lg:grid-cols-3 grid-cols-1 gap-x-4 h-screen">
-      <div class="flex lg:col-span-2 flex-col">
-        <div class="flex justify-between mb-6">
-          <div class="text-lg text-purple-300 font-normal">Stats</div>
-          <div
-            class="
-              subpixel-antialiased
-              py-2
-              px-3
-              rounded-lg
-              text-sm text-white
-              font-light
-              bg-purple-800
-              cursor-pointer
-              hover:bg-purple-600
-            "
-          >
-            + Add Client
-          </div>
-        </div>
-        <div
-          class="grid grid-cols-2 gap-2 mb-4 md:grid-cols-4 md:gap-4 md:mb-6"
-        >
-          <div class="bg-white h-36 rounded-xl flex flex-col shadow-sm">
-            <div>Icone</div>
-            <div>Title</div>
-            <div>Progress Bar component</div>
-          </div>
-          <div class="bg-white h-36 rounded-xl shadow-sm">2</div>
-          <div class="bg-white h-36 rounded-xl shadow-sm">3</div>
-          <div class="bg-white h-36 rounded-xl shadow-sm">4</div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
-          <div class="bg-white rounded-xl">Left</div>
-          <div class="bg-white rounded-xl">Right</div>
-        </div>
+    <div class="flex-1">
+      <div class="flex justify-between items-center">
+        <IconMenu class="w-5 h-5 text-gray-500 md:hidden" />
+        <img
+          class="w-10 h-auto rounded-lg md:ml-auto"
+          :src="userProfile.photoURL"
+          alt="user profile photo"
+        />
       </div>
 
-      <div class="bg-purple-50 rounded-xl shadow-sm">Side pane Right</div>
+      <main>Main Content</main>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import IconMenu from '@/components/IconMenu.vue';
+import ChartSquareBar from '@/components/ChartSquareBar.vue';
+import IconSupport from '@/components/IconSupport.vue';
+import IconX from '@/components/IconX.vue';
 
 export default {
   name: 'Home',
-  components: {},
+  components: { IconMenu, ChartSquareBar, IconSupport, IconX },
+  data() {
+    return {
+      isSidebarOpen: true,
+      menuItems: [
+        { label: 'Dashboard', icon: 'ChartSquareBar', url: '/' },
+        { label: 'About', icon: 'IconSupport', url: '/about' },
+      ],
+    };
+  },
   computed: {
     userProfile() {
       return this.$store.state.userProfile || '';
