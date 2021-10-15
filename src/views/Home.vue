@@ -18,6 +18,7 @@
             <IconUsers class="text-purple-500" />
           </div>
           <div
+            @click="handleModalOpen"
             class="
               cursor-pointer
               flex
@@ -80,6 +81,7 @@
         </h3>
       </div>
     </section>
+    <Modal v-if="isModalOpen" @close="isModalOpen = false" />
   </div>
 </template>
 
@@ -87,9 +89,20 @@
 // @ is an alias to /src
 import IconUsers from '@/components/IconUsers.vue';
 import IconPlus from '@/components/IconPlus.vue';
+import Modal from '@/components/Modal.vue';
 
 export default {
   name: 'Home',
-  components: { IconUsers, IconPlus },
+  components: { IconUsers, IconPlus, Modal },
+  data() {
+    return {
+      isModalOpen: false,
+    };
+  },
+  methods: {
+    handleModalOpen() {
+      this.isModalOpen = true;
+    },
+  },
 };
 </script>
