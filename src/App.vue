@@ -20,9 +20,10 @@
         >
           <IconX class="w-5 h-5 text-gray-500" />
         </button>
-        <div class="pt-12 pb-6 px-6">
-          <a href="#" class="text-xl text-purple-700 font-bold"
-            >WORKOUTFACTORY</a
+        <div class="flex items-center pt-12 pb-6 px-6">
+          <Logo class="mr-2" />
+          <a href="#" class="text-base text-purple-500 font-bold"
+            >WORKOUT<span class="text-purple-800">FACTORY</span></a
           >
         </div>
         <div class="overflow-y-auto flex-1">
@@ -47,8 +48,11 @@
 
     <!--  Desktop -->
     <div class="hidden md:block w-64 bg-gray-50 border-r border-gray-200">
-      <div class="py-4 px-6">
-        <a href="#" class="text-xl text-purple-700 font-bold">WORKOUTFACTORY</a>
+      <div class="flex items-center pt-12 px-6 pb-4">
+        <Logo class="mr-2" />
+        <a href="#" class="text-base text-purple-500 font-bold"
+          >WORKOUT<span class="text-purple-800">FACTORY</span></a
+        >
       </div>
       <div class="mb-5 px-6">
         <router-link
@@ -97,9 +101,10 @@ import IconMenu from '@/components/IconMenu.vue';
 import ChartSquareBar from '@/components/ChartSquareBar.vue';
 import IconSupport from '@/components/IconSupport.vue';
 import IconX from '@/components/IconX.vue';
+import Logo from '@/components/Logo.vue';
 
 export default {
-  components: { IconMenu, ChartSquareBar, IconSupport, IconX },
+  components: { IconMenu, ChartSquareBar, IconSupport, IconX, Logo },
   data() {
     return {
       hasUser: false,
