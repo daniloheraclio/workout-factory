@@ -16,55 +16,39 @@
       @close="handleCloseMenu"
       :menu-items="menuItems"
     />
-    <!--  Desktop -->
-    <NavDesktop @close="handleCloseMenu" :menu-items="menuItems" />
-    <div class="flex-1">
-      <div
-        class="
-          flex
-          justify-between
-          items-center
-          h-12
-          px-2
-          md:justify-end md:mb-2
-        "
-      >
-        <IconMenu
-          @click.native="isSidebarOpen = true"
-          class="w-5 h-5 text-gray-500 md:hidden"
-        />
-        <div
-          class="
-            p-0.5
-            bg-gradient-to-t
-            from-purple-600
-            to-yellow-500
-            rounded-full
-          "
-        >
-          <img
-            class="w-10 h-auto rounded-full md:ml-auto"
-            :src="userProfile.photoURL"
-            alt="user profile photo"
-          />
-        </div>
-      </div>
+    <!-- Desktop -->
+    <NavDesktop
+      v-if="hasUser"
+      @close="handleCloseMenu"
+      :menu-items="menuItems"
+    />
 
-      <main><router-view /></main>
+    <!-- Main content -->
+    <div class="flex-1">
+      <!-- Top header -->
+      <TopHeader
+        v-if="hasUser"
+        @open="isSidebarOpen = true"
+        :user-profile="userProfile"
+      />
+
+      <!-- Content -->
+      <router-view />
     </div>
   </div>
 </template>
 <script>
 import * as fb from './firebase';
-import IconMenu from '@/components/IconMenu.vue';
+
 import NavMobile from '@/components/NavMobile.vue';
 import NavDesktop from '@/components/NavDesktop.vue';
+import TopHeader from '@/components/TopHeader.vue';
 
 export default {
   components: {
-    IconMenu,
     NavMobile,
     NavDesktop,
+    TopHeader,
   },
   data() {
     return {
@@ -96,10 +80,6 @@ export default {
     },
   },
   methods: {
-    async signOut() {
-      await fb.auth.signOut();
-      this.$store.commit('SET_USER_PROFILE', {});
-    },
     handleCloseMenu() {
       this.isSidebarOpen = false;
     },
