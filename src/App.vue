@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="antialiased font-poppins">
     <router-view />
   </div>
 </template>
@@ -38,6 +38,6 @@ export default {
 </script>
 <style>
 html {
-  background-color: #e8e9f0;
+  /* background-color: #e8e9f0; */
 }
 </style>

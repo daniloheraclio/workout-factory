@@ -64,16 +64,26 @@
       </div>
     </div>
     <div class="flex-1">
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center h-12 px-2 md:justify-end">
         <IconMenu
           @click.native="isSidebarOpen = true"
           class="w-5 h-5 text-gray-500 md:hidden"
         />
-        <img
-          class="w-10 h-auto rounded-lg md:ml-auto"
-          :src="userProfile.photoURL"
-          alt="user profile photo"
-        />
+        <div
+          class="
+            p-0.5
+            bg-gradient-to-t
+            from-purple-600
+            to-yellow-500
+            rounded-full
+          "
+        >
+          <img
+            class="w-10 h-auto rounded-full md:ml-auto"
+            :src="userProfile.photoURL"
+            alt="user profile photo"
+          />
+        </div>
       </div>
 
       <main>Main Content</main>
