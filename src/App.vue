@@ -1,5 +1,15 @@
 <template>
-  <div class="antialiased font-poppins bg-purple-50 flex min-h-screen">
+  <div
+    class="
+      container
+      mx-auto
+      antialiased
+      font-poppins
+      bg-purple-50
+      flex
+      min-h-screen
+    "
+  >
     <!-- Mobile -->
     <div v-if="isSidebarOpen" class="fixed inset-0 z-40 md:hidden">
       <div
@@ -69,7 +79,16 @@
       </div>
     </div>
     <div class="flex-1">
-      <div class="flex justify-between items-center h-12 px-2 md:justify-end">
+      <div
+        class="
+          flex
+          justify-between
+          items-center
+          h-12
+          px-2
+          md:justify-end md:mb-2
+        "
+      >
         <IconMenu
           @click.native="isSidebarOpen = true"
           class="w-5 h-5 text-gray-500 md:hidden"
