@@ -20,9 +20,9 @@
       </button>
       <div class="flex items-center pt-12 pb-6 px-6">
         <Logo class="mr-2" />
-        <a href="#" class="text-base text-purple-500 font-bold"
-          >WORKOUT<span class="text-purple-800">FACTORY</span></a
-        >
+        <p class="text-base text-purple-500 font-bold">
+          WORKOUT<span class="text-purple-800">FACTORY</span>
+        </p>
       </div>
       <div class="overflow-y-auto flex-1">
         <div class="mb-5 px-6">

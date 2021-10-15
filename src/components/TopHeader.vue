@@ -1,11 +1,12 @@
 <template>
   <div
-    class="flex justify-between items-center h-12 px-2 md:justify-end md:mb-2"
+    class="flex justify-between items-center h-12 p-2 md:justify-end md:mb-2"
   >
     <IconMenu
       @click.native="$emit('open')"
-      class="w-5 h-5 text-gray-500 md:hidden"
+      class="w-5 h-5 text-gray-500 cursor-pointer md:hidden"
     />
+
     <ProfileButton :user-profile="userProfile"></ProfileButton>
   </div>
 </template>

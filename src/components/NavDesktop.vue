@@ -2,9 +2,9 @@
   <div class="hidden md:block w-64 bg-gray-50 border-r border-gray-200">
     <div class="flex items-center pt-12 px-6 pb-4">
       <Logo class="mr-2" />
-      <a href="#" class="text-base text-purple-500 font-bold"
-        >WORKOUT<span class="text-purple-800">FACTORY</span></a
-      >
+      <p class="text-base text-purple-500 font-bold">
+        WORKOUT<span class="text-purple-800">FACTORY</span>
+      </p>
     </div>
     <div class="mb-5 px-6">
       <router-link

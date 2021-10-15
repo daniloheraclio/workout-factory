@@ -22,26 +22,27 @@
 
     <div
       v-if="isOpen"
-      class="absolute top-12 right-0 p-2 w-36 bg-white border-2 rounded-md"
+      class="absolute top-14 right-0 py-2 w-36 bg-white shadow-lg rounded-md"
     >
       <ul v-for="item in items" :key="item.value">
-        <li
-          class="
-            flex
-            justify-start
-            items-center
-            cursor-pointer
-            p-2
-            mb-2
-            rounded
-            transition
-            duration-300
-            hover:bg-gray-100
-          "
-          @click="getValue(item)"
-        >
-          <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
-          <p class="text-sm text-gray-500">{{ item.label }}</p>
+        <li @click="hide">
+          <router-link
+            :to="item.url"
+            class="
+              flex
+              justify-start
+              items-center
+              cursor-pointer
+              p-2
+              mb-2
+              transition
+              duration-300
+              hover:bg-gray-100
+            "
+          >
+            <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
+            <p class="text-sm text-gray-500">{{ item.label }}</p>
+          </router-link>
         </li>
       </ul>
       <a
@@ -51,7 +52,6 @@
           justify-start
           items-center
           cursor-pointer
-          rounded
           w-full
           p-2
           transition
@@ -87,7 +87,7 @@ export default {
       items: [
         {
           label: 'Settings',
-          value: 'settings',
+          url: '/settings',
           icon: 'IconSettings',
         },
       ],
@@ -106,11 +106,6 @@ export default {
     },
     hide() {
       this.isOpen = false;
-    },
-    getValue(value) {
-      this.selectedvalue = value;
-      this.hide();
-      console.log(this.selectedvalue);
     },
     async signOut() {
       await fb.auth.signOut();
