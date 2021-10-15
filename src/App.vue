@@ -11,73 +11,13 @@
     "
   >
     <!-- Mobile -->
-    <div v-if="isSidebarOpen" class="fixed inset-0 z-40 md:hidden">
-      <div
-        class="
-          flex flex-col
-          md:hidden
-          relative
-          z-10
-          h-full
-          w-72
-          bg-gray-50
-          border-r border-gray-400
-        "
-      >
-        <button
-          @click="isSidebarOpen = false"
-          class="absolute top-2 right-2 focus:text-gray-800 focus:outline-none"
-        >
-          <IconX class="w-5 h-5 text-gray-500" />
-        </button>
-        <div class="flex items-center pt-12 pb-6 px-6">
-          <Logo class="mr-2" />
-          <a href="#" class="text-base text-purple-500 font-bold"
-            >WORKOUT<span class="text-purple-800">FACTORY</span></a
-          >
-        </div>
-        <div class="overflow-y-auto flex-1">
-          <div class="mb-5 px-6">
-            <router-link
-              v-for="(item, index) in menuItems"
-              :key="index"
-              :to="item.url"
-              @click.native="isSidebarOpen = false"
-              class="flex items-center mb-5"
-            >
-              <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
-              <h3 class="text-sm text-gray-500 uppercase tracking-widest">
-                {{ item.label }}
-              </h3>
-            </router-link>
-          </div>
-        </div>
-      </div>
-      <div class="fixed inset-0 bg-gray-600 bg-opacity-50"></div>
-    </div>
-
+    <NavMobile
+      v-if="isSidebarOpen"
+      @close="handleCloseMenu"
+      :menu-items="menuItems"
+    />
     <!--  Desktop -->
-    <div class="hidden md:block w-64 bg-gray-50 border-r border-gray-200">
-      <div class="flex items-center pt-12 px-6 pb-4">
-        <Logo class="mr-2" />
-        <a href="#" class="text-base text-purple-500 font-bold"
-          >WORKOUT<span class="text-purple-800">FACTORY</span></a
-        >
-      </div>
-      <div class="mb-5 px-6">
-        <router-link
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :to="item.url"
-          class="flex items-center mb-5"
-        >
-          <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
-          <h3 class="text-sm text-gray-500 uppercase tracking-widest">
-            {{ item.label }}
-          </h3>
-        </router-link>
-      </div>
-    </div>
+    <NavDesktop @close="handleCloseMenu" :menu-items="menuItems" />
     <div class="flex-1">
       <div
         class="
@@ -117,17 +57,19 @@
 <script>
 import * as fb from './firebase';
 import IconMenu from '@/components/IconMenu.vue';
-import ChartSquareBar from '@/components/ChartSquareBar.vue';
-import IconSupport from '@/components/IconSupport.vue';
-import IconX from '@/components/IconX.vue';
-import Logo from '@/components/Logo.vue';
+import NavMobile from '@/components/NavMobile.vue';
+import NavDesktop from '@/components/NavDesktop.vue';
 
 export default {
-  components: { IconMenu, ChartSquareBar, IconSupport, IconX, Logo },
+  components: {
+    IconMenu,
+    NavMobile,
+    NavDesktop,
+  },
   data() {
     return {
       hasUser: false,
-      isSidebarOpen: true,
+      isSidebarOpen: false,
       menuItems: [
         { label: 'Dashboard', icon: 'ChartSquareBar', url: '/' },
         { label: 'About', icon: 'IconSupport', url: '/about' },
@@ -157,6 +99,9 @@ export default {
     async signOut() {
       await fb.auth.signOut();
       this.$store.commit('SET_USER_PROFILE', {});
+    },
+    handleCloseMenu() {
+      this.isSidebarOpen = false;
     },
   },
 };
