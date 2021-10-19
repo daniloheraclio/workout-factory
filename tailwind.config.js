@@ -24,6 +24,9 @@ module.exports = {
         '90%': '90%',
         full: '100%',
       },
+      animation: {
+        'spin-slow': 'spin 2s linear infinite',
+      },
     },
   },
   variants: {

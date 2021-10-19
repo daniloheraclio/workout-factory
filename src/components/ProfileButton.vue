@@ -14,9 +14,8 @@
       "
     >
       <img
-        class="w-10 h-auto rounded-full md:ml-auto"
+        class="w-10 h-10 rounded-full md:ml-auto"
         :src="userProfile.photoURL"
-        alt="user profile photo"
       />
     </div>
 

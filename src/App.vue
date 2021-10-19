@@ -1,5 +1,7 @@
 <template>
+  <LoaderSpinner v-if="isLoading" />
   <div
+    v-else
     class="
       container
       mx-auto
@@ -39,16 +41,19 @@
 </template>
 <script>
 import * as fb from './firebase';
+import { mapState } from 'vuex';
 
 import NavMobile from '@/components/NavMobile.vue';
 import NavDesktop from '@/components/NavDesktop.vue';
 import TopHeader from '@/components/TopHeader.vue';
+import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 export default {
   components: {
     NavMobile,
     NavDesktop,
     TopHeader,
+    LoaderSpinner,
   },
   data() {
     return {
@@ -75,6 +80,7 @@ export default {
     });
   },
   computed: {
+    ...mapState(['isLoading']),
     userProfile() {
       return this.$store.state.userProfile || '';
     },

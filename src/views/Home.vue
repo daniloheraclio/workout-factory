@@ -81,7 +81,15 @@
         </h3>
       </div>
     </section>
-    <Modal v-if="isModalOpen" @close="isModalOpen = false" />
+    <Modal v-if="isModalOpen">
+      <template slot="content">
+        <ClientForm
+          client-action="add"
+          :handle-save="saveClient"
+          @on-cancel="handleModalClose"
+        />
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -90,18 +98,40 @@
 import IconUsers from '@/components/IconUsers.vue';
 import IconPlus from '@/components/IconPlus.vue';
 import Modal from '@/components/Modal.vue';
+import ClientForm from '@/components/ClientForm.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
-  components: { IconUsers, IconPlus, Modal },
+  components: { IconUsers, IconPlus, Modal, ClientForm },
   data() {
     return {
       isModalOpen: false,
+      client: {
+        name: '',
+        email: '',
+        birthdate: '',
+        gender: '',
+        isActive: false,
+      },
     };
   },
+  computed: {
+    ...mapState(['currentClient']),
+  },
   methods: {
+    ...mapActions(['addClient']),
     handleModalOpen() {
       this.isModalOpen = true;
+    },
+    handleModalClose() {
+      this.isModalOpen = false;
+    },
+    async saveClient(client) {
+      console.log(client);
+      await this.addClient(client);
+
+      this.handleModalClose();
     },
   },
 };
