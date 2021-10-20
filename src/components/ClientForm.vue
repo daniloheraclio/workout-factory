@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-0 space-y-4">
+  <div class="mb-0 space-y-5">
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700"
         >Name</label
@@ -9,9 +9,13 @@
           id="name"
           name="name"
           type="text"
-          autocomplete="name"
           required
-          v-model="client.name"
+          v-model.trim="client.name"
+          :class="{
+            'border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500':
+              $v.client.name.$error,
+          }"
+          @blur="$v.client.name.$touch"
         />
       </div>
     </div>
@@ -27,7 +31,12 @@
           type="text"
           autocomplete="email"
           required
-          v-model="client.email"
+          v-model.trim="client.email"
+          :class="{
+            'border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500':
+              $v.client.email.$error,
+          }"
+          @blur="$v.client.email.$touch"
         />
       </div>
     </div>
@@ -44,6 +53,11 @@
           autocomplete="date"
           required
           v-model="client.birthdate"
+          :class="{
+            'border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500':
+              $v.client.birthdate.$error,
+          }"
+          @blur="$v.client.birthdate.$touch"
         />
       </div>
     </div>
@@ -53,7 +67,16 @@
         >Gender</label
       >
       <div class="mt-1">
-        <select name="gender" id="gender" v-model="client.gender">
+        <select
+          name="gender"
+          id="gender"
+          v-model="client.gender"
+          :class="{
+            'border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500':
+              $v.client.gender.$error,
+          }"
+          @blur="$v.client.gender.$touch"
+        >
           <option value="">Please select</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -156,7 +179,7 @@
 </template>
 
 <script>
-// import { Validator } from 'simple-vue-validator';
+import { required, minLength, email } from 'vuelidate/lib/validators';
 // import { mapState } from 'vuex';
 
 export default {
@@ -193,10 +216,23 @@ export default {
       this.$emit('on-cancel');
     },
   },
-  // validators: {
-  //   email: function (value) {
-  //     return Validator.value(value).required.email();
-  //   },
-  // },
+  validations: {
+    client: {
+      name: {
+        required,
+        minLength: minLength(4),
+      },
+      email: {
+        required,
+        email,
+      },
+      birthdate: {
+        required,
+      },
+      gender: {
+        required,
+      },
+    },
+  },
 };
 </script>

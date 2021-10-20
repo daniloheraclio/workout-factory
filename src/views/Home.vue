@@ -84,6 +84,7 @@
     <Modal v-if="isModalOpen">
       <template slot="content">
         <ClientForm
+          ref="clientForm"
           client-action="add"
           :handle-save="saveClient"
           @on-cancel="handleModalClose"
@@ -128,10 +129,13 @@ export default {
       this.isModalOpen = false;
     },
     async saveClient(client) {
-      console.log(client);
-      await this.addClient(client);
-
-      this.handleModalClose();
+      if (!this.$refs.clientForm.$v.$invalid) {
+        console.log('ta tudo valido', client);
+        // await this.addClient(client);
+        this.handleModalClose();
+      } else {
+        console.log('invalido');
+      }
     },
   },
 };
