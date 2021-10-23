@@ -2,42 +2,18 @@
   <div class="relative">
     <div
       v-click-outside="hide"
+      class="cursor-pointer relative p-0.5 bg-gradient-to-t from-purple-600 to-yellow-500 rounded-full"
       @click="toggleOpen"
-      class="
-        cursor-pointer
-        relative
-        p-0.5
-        bg-gradient-to-t
-        from-purple-600
-        to-yellow-500
-        rounded-full
-      "
     >
-      <img
-        class="w-10 h-10 rounded-full md:ml-auto"
-        :src="userProfile.photoURL"
-      />
+      <img class="w-10 h-10 rounded-full md:ml-auto" :src="userProfile.photoURL" />
     </div>
 
-    <div
-      v-if="isOpen"
-      class="absolute top-14 right-0 py-2 w-36 bg-white shadow-lg rounded-md"
-    >
+    <div v-if="isOpen" class="absolute top-14 right-0 py-2 w-36 bg-white shadow-lg rounded-md">
       <ul v-for="item in items" :key="item.value">
         <li @click="hide">
           <router-link
             :to="item.url"
-            class="
-              flex
-              justify-start
-              items-center
-              cursor-pointer
-              p-2
-              mb-2
-              transition
-              duration-300
-              hover:bg-gray-100
-            "
+            class="flex justify-start items-center cursor-pointer p-2 mb-2 transition duration-300 hover:bg-gray-100"
           >
             <component :is="item.icon" class="w-5 h-5 text-gray-500 mr-2" />
             <p class="text-sm text-gray-500">{{ item.label }}</p>
@@ -45,18 +21,8 @@
         </li>
       </ul>
       <a
+        class="flex justify-start items-center cursor-pointer w-full p-2 transition duration-300 hover:bg-gray-100"
         @click="signOut"
-        class="
-          flex
-          justify-start
-          items-center
-          cursor-pointer
-          w-full
-          p-2
-          transition
-          duration-300
-          hover:bg-gray-100
-        "
       >
         <IconLogout class="w-5 h-5 text-gray-500 mr-2" />
         <p class="text-sm text-gray-500">Sign out</p>
@@ -73,6 +39,9 @@ import IconSettings from '@/components/IconSettings.vue';
 
 export default {
   components: { IconLogout, IconSettings },
+  directives: {
+    ClickOutside,
+  },
   props: {
     userProfile: {
       type: Object,
@@ -95,9 +64,6 @@ export default {
   mounted() {
     // prevent click outside event with popupItem.
     this.popupItem = this.$el;
-  },
-  directives: {
-    ClickOutside,
   },
   methods: {
     toggleOpen() {

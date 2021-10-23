@@ -1,31 +1,27 @@
 <template>
   <div>
     <!-- Overlay -->
-    <div
-      class="
-        hidden
-        md:block
-        fixed
-        inset-0
-        bg-gray-600 bg-opacity-50
-        overflow-y-auto
-        h-full
-        w-full
-      "
-    ></div>
+    <div class="hidden md:block fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"></div>
 
     <!-- Content -->
     <div
       class="
         fixed
-        md:relative
-        top-0
-        left-0
-        md:mx-auto md:border
+        inset-0
         w-full
         h-screen
+        overflow-y-auto
         p-3
-        md:w-96 md:h-full md:top-20 md:p-5 md:shadow-lg md:rounded-md
+        md:transform
+        md:-translate-x-1/3
+        md:relative
+        md:mx-auto
+        md:border
+        md:w-96
+        md:h-full
+        md:p-5
+        md:shadow-lg
+        md:rounded-md
         bg-white
       "
     >

@@ -1,38 +1,15 @@
 <template>
   <LoaderSpinner v-if="isLoading" />
-  <div
-    v-else
-    class="
-      container
-      mx-auto
-      antialiased
-      font-poppins
-      bg-purple-50
-      flex
-      min-h-screen
-    "
-  >
+  <div v-else class="container mx-auto antialiased font-poppins bg-purple-50 flex min-h-screen">
     <!-- Mobile -->
-    <NavMobile
-      v-if="isSidebarOpen"
-      @close="handleCloseMenu"
-      :menu-items="menuItems"
-    />
+    <NavMobile v-if="isSidebarOpen" :menu-items="menuItems" @close="handleCloseMenu" />
     <!-- Desktop -->
-    <NavDesktop
-      v-if="hasUser"
-      @close="handleCloseMenu"
-      :menu-items="menuItems"
-    />
+    <NavDesktop v-if="hasUser" :menu-items="menuItems" @close="handleCloseMenu" />
 
     <!-- Main content -->
     <div class="flex-1">
       <!-- Top header -->
-      <TopHeader
-        v-if="hasUser"
-        @open="isSidebarOpen = true"
-        :user-profile="userProfile"
-      />
+      <TopHeader v-if="hasUser" :user-profile="userProfile" @open="isSidebarOpen = true" />
 
       <!-- Content -->
       <router-view />

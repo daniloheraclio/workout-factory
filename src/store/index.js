@@ -28,11 +28,7 @@ export default new Vuex.Store({
       // console.log('uid', store.state.userProfile.uid);
       const { uid } = fb.auth.currentUser;
 
-      const currentClient = await fb.usersCollection
-        .doc(uid)
-        .collection('clients')
-        .doc(id)
-        .get();
+      const currentClient = await fb.usersCollection.doc(uid).collection('clients').doc(id).get();
 
       commit('SET_CURRENT_CLIENT', currentClient.data());
     },
@@ -40,10 +36,7 @@ export default new Vuex.Store({
     async addClient({ dispatch }, client) {
       const { uid } = fb.auth.currentUser;
 
-      const newClient = await fb.usersCollection
-        .doc(uid)
-        .collection('clients')
-        .add(client);
+      const newClient = await fb.usersCollection.doc(uid).collection('clients').add(client);
 
       // set new client as currentClient
       await dispatch('fetchCurrentClient', newClient.id);
