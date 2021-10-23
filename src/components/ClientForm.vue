@@ -72,50 +72,15 @@
           }"
           @blur="$v.client.gender.$touch"
         >
-          <option value="">Please select</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+          <option v-for="option in genderOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
         </select>
       </div>
     </div>
 
     <div>
-      <label for="is-active" class="block text-sm font-medium text-gray-700">Is active? </label>
-      <div>
-        <div class="flex items-center space-y-12 m-auto max-w-5xl">
-          <label
-            for="toggle"
-            class="w-9 h-5 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer duration-300 ease-in-out"
-          >
-            <div
-              class="
-                focus:ring-2
-                toggle-dot
-                bg-purple-100
-                w-4
-                h-4
-                rounded-full
-                shadow-md
-                transform
-                duration-300
-                ease-in-out
-              "
-              :class="{
-                'translate-x-3 focus:outline-none': !client.isActive,
-              }"
-            ></div>
-          </label>
-
-          <span></span>
-          <input
-            id="toggle"
-            v-model="client.isActive"
-            type="checkbox"
-            name="toggle"
-            class="hidden"
-            @click="client.isActive = !client.isActive"
-          />
-        </div>
+      <div class="flex items-center justify-between">
+        <label for="is-active" class="block text-sm font-medium text-gray-700">Is active? </label>
+        <Toggle v-model="client.isActive" />
       </div>
     </div>
 
@@ -132,12 +97,14 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import IconChevronLeft from './IconChevronLeft.vue';
 import Button from './Button.vue';
+import Toggle from './Toggle.vue';
 // import { mapState } from 'vuex';
 
 export default {
   components: {
     Button,
     IconChevronLeft,
+    Toggle,
   },
   props: {
     /**
@@ -154,6 +121,12 @@ export default {
   },
   data() {
     return {
+      toggleIsActive: false,
+      genderOptions: [
+        { value: '', label: 'Please select' },
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' },
+      ],
       client: {
         name: '',
         email: '',
