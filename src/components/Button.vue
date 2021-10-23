@@ -17,7 +17,7 @@
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
       "
       :class="{
-        'bg-gray-200 text-gray-500 cursor-default hover:bg-gray-200': isInvalid,
+        'bg-gray-200 text-gray-500 cursor-default hover:bg-gray-200 focus:ring-transparent': isInvalid,
       }"
       @click="$emit('on-click')"
     >
