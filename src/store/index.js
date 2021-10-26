@@ -44,6 +44,7 @@ export default new Vuex.Store({
     },
 
     getClients: ({ commit }, uid) => {
+      commit('SET_IS_LOADING', true);
       let clientsData = [];
       fb.usersCollection
         .doc(uid)
@@ -61,6 +62,7 @@ export default new Vuex.Store({
           });
           commit('SET_CLIENTS', clientsData);
         });
+      commit('SET_IS_LOADING', false);
     },
   },
   modules: {},

@@ -32,6 +32,15 @@ const routes = [
     },
   },
   {
+    path: '/client/:id',
+    name: 'Client',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/Client.vue'),
+    props: true,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/settings',
     name: 'Settings',
     component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue'),

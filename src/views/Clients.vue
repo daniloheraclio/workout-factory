@@ -2,7 +2,10 @@
   <div class="flex flex-col min-h-90% px-2 md:px-4">
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">Clients</h1>
     <section v-for="client in clients" :key="client.id" class="flex flex-col mb-2 hover:cursor-pointer">
-      <div class="flex flex-row justify-between items-center p-2 bg-white rounded-md shadow-sm hover:bg-purple-100">
+      <div
+        @click="getClient(client.id)"
+        class="flex flex-row justify-between items-center p-2 bg-white rounded-md shadow-sm hover:bg-purple-100"
+      >
         <div class="flex flex-col w-2/6">
           <p class="text-sm mb-1 text-gray-800">{{ client.name }}</p>
           <p class="text-2xs text-gray-500">{{ client.email }}</p>
@@ -42,6 +45,9 @@ export default {
   methods: {
     getGenderColor(gender) {
       return gender === 'male' ? 'bg-blue-200 text-blue-800' : 'bg-pink-200 text-pink-800';
+    },
+    getClient(id) {
+      this.$router.push({ path: `client/${id}` });
     },
   },
 };
