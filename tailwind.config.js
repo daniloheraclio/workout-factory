@@ -8,6 +8,10 @@ module.exports = {
       fontFamily: {
         poppins: "'Poppins', 'sans-serif'",
       },
+      fontSize: {
+        '3xs': '0.5rem',
+        '2xs': '0.65rem',
+      },
       minHeight: {
         0: '0',
         '1/4': '25%',
