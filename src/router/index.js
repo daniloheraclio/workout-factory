@@ -24,6 +24,14 @@ const routes = [
     },
   },
   {
+    path: '/clients',
+    name: 'Clients',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/Clients.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/settings',
     name: 'Settings',
     component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue'),

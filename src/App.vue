@@ -38,6 +38,7 @@ export default {
       isSidebarOpen: false,
       menuItems: [
         { label: 'Dashboard', icon: 'ChartSquareBar', url: '/' },
+        { label: 'Clients', icon: 'IconClients', url: '/clients' },
         { label: 'About', icon: 'IconSupport', url: '/about' },
       ],
     };

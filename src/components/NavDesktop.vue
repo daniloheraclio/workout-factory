@@ -18,10 +18,11 @@
 <script>
 import ChartSquareBar from '@/components/ChartSquareBar.vue';
 import IconSupport from '@/components/IconSupport.vue';
+import IconClients from '@/components/IconClients.vue';
 import IconX from '@/components/IconX.vue';
 import Logo from '@/components/Logo.vue';
 export default {
-  components: { ChartSquareBar, IconSupport, IconX, Logo },
+  components: { ChartSquareBar, IconSupport, IconClients, IconX, Logo },
   props: {
     menuItems: {
       type: Array,
