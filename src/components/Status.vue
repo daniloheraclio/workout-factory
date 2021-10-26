@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row items-center">
+  <div class="flex flex-row items-center w-[66px]">
     <IconCheck v-if="isActive" class="w-4 h-4 text-green-500 mr-1" />
     <IconXCircle v-if="!isActive" class="w-4 h-4 text-red-500 mr-1" />
     <p class="text-2xs uppercase text-gray-700">{{ label }}</p>

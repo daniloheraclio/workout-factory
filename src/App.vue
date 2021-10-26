@@ -18,7 +18,7 @@
 </template>
 <script>
 import * as fb from './firebase';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import NavMobile from '@/components/NavMobile.vue';
 import NavDesktop from '@/components/NavDesktop.vue';
@@ -54,6 +54,9 @@ export default {
           photoURL: user?.photoURL,
           uid: user?.uid,
         });
+
+        // fetch all user clients and save in store
+        this.getClients(user?.uid);
       }
     });
   },
@@ -64,6 +67,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['getClients']),
     handleCloseMenu() {
       this.isSidebarOpen = false;
     },

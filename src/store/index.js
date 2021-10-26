@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     isLoading: false,
     userProfile: {},
+    clients: [],
   },
   mutations: {
     SET_IS_LOADING(state, isLoading) {
@@ -40,6 +41,26 @@ export default new Vuex.Store({
 
       // set new client as currentClient
       await dispatch('fetchCurrentClient', newClient.id);
+    },
+
+    getClients: ({ commit }, uid) => {
+      let clientsData = [];
+      fb.usersCollection
+        .doc(uid)
+        .collection('clients')
+        .onSnapshot((res) => {
+          const changes = res.docChanges();
+
+          changes.forEach((change) => {
+            if (change.type === 'added') {
+              clientsData.push({
+                ...change.doc.data(),
+                id: change.doc.id,
+              });
+            }
+          });
+          commit('SET_CLIENTS', clientsData);
+        });
     },
   },
   modules: {},
