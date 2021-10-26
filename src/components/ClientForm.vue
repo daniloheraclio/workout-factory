@@ -4,7 +4,7 @@
       <button class="mr-2 py-2 px-2 border border-transparent rounded-md hover:bg-purple-100" @click="cancel">
         <IconChevronLeft class="text-purple-700" />
       </button>
-      <Button :is-invalid="$v.$invalid" label="Save" @on-click="handleSave(client)" />
+      <Button :is-invalid="$v.$invalid" label="Save" @on-click="saveClient" />
     </div>
 
     <div>
@@ -98,6 +98,7 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import IconChevronLeft from './IconChevronLeft.vue';
 import Button from './Button.vue';
 import Toggle from './Toggle.vue';
+import { validateEmail } from '../helpers/helper-string.js';
 // import { mapState } from 'vuex';
 
 export default {
@@ -137,8 +138,13 @@ export default {
     };
   },
   methods: {
+    validateEmail,
     cancel() {
       this.$emit('on-cancel');
+    },
+    saveClient() {
+      const sanitizedEmail = this.validateEmail(this.client.email);
+      this.handleSave({ ...this.client, email: sanitizedEmail });
     },
   },
   validations: {
