@@ -45,7 +45,7 @@ import IconUsers from '@/components/IconUsers.vue';
 import IconPlus from '@/components/IconPlus.vue';
 import Modal from '@/components/Modal.vue';
 import ClientForm from '@/components/ClientForm.vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -66,6 +66,7 @@ export default {
     ...mapState(['currentClient']),
   },
   methods: {
+    ...mapMutations(['SET_IS_LOADING']),
     ...mapActions(['addClient']),
     handleModalOpen() {
       this.isModalOpen = true;
@@ -75,11 +76,15 @@ export default {
     },
     async saveClient(client) {
       if (!this.$refs.clientForm.$v.$invalid) {
-        console.log('ta tudo valido', client);
-        // await this.addClient(client);
-        this.handleModalClose();
-      } else {
-        console.log('invalido');
+        this.SET_IS_LOADING(true);
+        try {
+          await this.addClient(client);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.handleModalClose();
+          this.SET_IS_LOADING(false);
+        }
       }
     },
   },

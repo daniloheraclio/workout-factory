@@ -1,27 +1,15 @@
 <template>
   <div>
     <button
-      class="
-        flex
-        justify-center
-        py-2
-        px-4
-        border border-transparent
-        rounded-md
-        shadow-sm
-        text-sm
-        font-medium
-        text-white
-        bg-purple-600
-        hover:bg-purple-700
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
-      "
+      class="btn"
       :class="{
-        'bg-gray-200 text-gray-500 cursor-default hover:bg-gray-200 focus:ring-transparent': isInvalid,
+        'btn-primary': !isDisabled,
+        'btn-disabled': isDisabled,
+        'btn-link': isLink,
       }"
       @click="$emit('on-click')"
     >
-      {{ labelFormatted }}
+      <p>{{ labelFormatted }}</p>
     </button>
   </div>
 </template>
@@ -35,7 +23,11 @@ export default {
       type: String,
       required: true,
     },
-    isInvalid: {
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    isLink: {
       type: Boolean,
       default: false,
     },
@@ -50,3 +42,28 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+.btn {
+  @apply py-2
+         px-4
+         border border-transparent
+         rounded-md
+         text-sm;
+}
+
+.btn-primary {
+  @apply text-white
+         bg-purple-600
+         hover:bg-purple-700
+         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500;
+}
+
+.btn-link {
+  @apply text-gray-900 bg-transparent hover:bg-purple-100;
+}
+
+.btn-disabled {
+  @apply text-gray-500 bg-gray-200 cursor-default hover:bg-gray-200 focus:outline-none focus:ring-0;
+}
+</style>
