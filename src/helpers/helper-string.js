@@ -10,3 +10,11 @@ export function validateEmail(email) {
 
   return email.replace(userName, userName.toLowerCase());
 }
+
+export function getAge(date) {
+  const diff = Date.now() - new Date(date).getTime();
+
+  const age = new Date(diff);
+
+  return Math.abs(age.getUTCFullYear() - 1970);
+}

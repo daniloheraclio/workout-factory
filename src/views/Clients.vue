@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col min-h-90% px-2 md:px-4">
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">Clients</h1>
-    <section v-for="client in clients" :key="client.id" class="flex flex-col mb-2 hover:cursor-pointer">
+    <section v-for="client in clientsFomatted" :key="client.id" class="flex flex-col mb-2 hover:cursor-pointer">
       <div
         @click="getClient(client.id)"
         class="flex flex-row justify-between items-center p-2 bg-white rounded-md shadow-sm hover:bg-purple-100"
@@ -14,7 +14,7 @@
           <IconCake class="mr-2 w-6 h-6 text-gray-500" />
           <div class="flex flex-col">
             <p class="text-xs text-gray-700 mb-1">{{ client.birthdate }}</p>
-            <p class="text-xs text-gray-700">23 years</p>
+            <p class="text-xs text-gray-700">{{ client.age }} years</p>
           </div>
         </div>
 
@@ -35,12 +35,12 @@
 <script>
 import IconCake from '../components/IconCake.vue';
 import Status from '../components/Status.vue';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { IconCake, Status },
   computed: {
-    ...mapState(['clients']),
+    ...mapGetters(['clientsFomatted']),
   },
   methods: {
     getGenderColor(gender) {

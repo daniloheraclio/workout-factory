@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as fb from '../firebase';
+import { getAge } from '../helpers/helper-string';
 
 Vue.use(Vuex);
 
@@ -63,6 +64,16 @@ export default new Vuex.Store({
           commit('SET_CLIENTS', clientsData);
         });
       commit('SET_IS_LOADING', false);
+    },
+  },
+  getters: {
+    clientsFomatted: (state) => {
+      return state.clients.map((client) => {
+        return {
+          ...client,
+          age: getAge(client.birthdate),
+        };
+      });
     },
   },
   modules: {},
