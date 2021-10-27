@@ -65,6 +65,13 @@ export default new Vuex.Store({
         });
       commit('SET_IS_LOADING', false);
     },
+    deleteClient: async ({ dispatch }, id) => {
+      const { uid } = fb.auth.currentUser;
+
+      await fb.usersCollection.doc(uid).collection('clients').doc(id).delete();
+
+      await dispatch('getClients', uid);
+    },
   },
   getters: {
     clientsFomatted: (state) => {

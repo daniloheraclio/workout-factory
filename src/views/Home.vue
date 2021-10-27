@@ -15,7 +15,7 @@
             <p class="text-sm text-purple-500 font-semibold">Add</p>
           </div>
         </div>
-        <h3 class="uppercase text-md text-purple-700 font-semibold tracking-wide">7 Clients</h3>
+        <h3 class="uppercase text-md text-purple-700 font-semibold tracking-wide">{{ clients.length }} Clients</h3>
       </div>
 
       <div class="flex flex-col justify-between bg-white rounded-lg p-3 h-32 md:p-4">
@@ -28,7 +28,7 @@
             <p class="text-sm text-purple-500 font-semibold">Add</p>
           </div>
         </div>
-        <h3 class="uppercase text-md text-purple-700 font-semibold tracking-wide">7 Clients</h3>
+        <h3 class="uppercase text-md text-purple-700 font-semibold tracking-wide">{{ clients.length }} Clients</h3>
       </div>
     </section>
     <Modal v-if="isModalOpen">
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import IconUsers from '@/components/IconUsers.vue';
 import IconPlus from '@/components/IconPlus.vue';
 import Modal from '@/components/Modal.vue';
@@ -63,7 +62,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['currentClient']),
+    ...mapState(['clients']),
   },
   methods: {
     ...mapMutations(['SET_IS_LOADING']),
@@ -84,6 +83,7 @@ export default {
         } finally {
           this.handleModalClose();
           this.SET_IS_LOADING(false);
+          this.$router.push({ path: 'clients' });
         }
       }
     },
