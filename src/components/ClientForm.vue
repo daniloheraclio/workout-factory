@@ -116,6 +116,10 @@ export default {
     handleSave: {
       required: true,
     },
+    currentClient: {
+      type: Object,
+      required: false,
+    },
   },
   data() {
     return {
@@ -133,6 +137,15 @@ export default {
         isActive: false,
       },
     };
+  },
+  mounted() {
+    if (this.clientAction === 'edit' && !this.currentClient) {
+      this.$router.push({ path: '/clients' });
+    }
+
+    if (this.clientAction !== 'add' && this.currentClient) {
+      this.client = { ...this.currentClient };
+    }
   },
   methods: {
     validateEmail,

@@ -15,7 +15,9 @@
             <p class="text-sm text-purple-500 font-semibold">Add</p>
           </div>
         </div>
-        <h3 class="uppercase text-md text-purple-700 font-semibold tracking-wide">{{ clients.length }} Clients</h3>
+        <h3 @click="goToClients" class="uppercase text-md text-purple-700 font-semibold tracking-wide">
+          {{ clients.length }} Clients
+        </h3>
       </div>
 
       <div class="flex flex-col justify-between bg-white rounded-lg p-3 h-32 md:p-4">
@@ -72,6 +74,9 @@ export default {
     },
     handleModalClose() {
       this.isModalOpen = false;
+    },
+    goToClients() {
+      this.$router.push({ path: '/clients' });
     },
     async saveClient(client) {
       if (!this.$refs.clientForm.$v.$invalid) {
