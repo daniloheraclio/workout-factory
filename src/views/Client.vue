@@ -9,6 +9,34 @@
       </div>
     </div>
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ age }}</h1>
+
+    <!-- Section add new workout -->
+    <div class="flex flex-row gap-x-2">
+      <div
+        class="
+          flex
+          justify-center
+          items-center
+          w-1/2
+          h-36
+          rounded-md
+          bg-gray-50
+          border-2 border-dashed border-gray-200
+          text-gray-300
+          uppercase
+          cursor-pointer
+          hover:text-gray-400
+          transition-colors
+          md:h-48
+        "
+      >
+        <p class="text-sm md:text-base">Create new workout</p>
+      </div>
+      <div class="flex justify-center items-center w-1/2 bg-purple-500 text-purple-200 uppercase rounded-md">
+        <p class="text-sm md:text-base">Workouts</p>
+      </div>
+    </div>
+
     <Modal v-if="isModalOpen">
       <template slot="content">
         <ClientForm
