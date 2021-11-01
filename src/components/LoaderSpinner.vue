@@ -1,27 +1,51 @@
 <template>
-  <div class="min-h-screen w-screen flex items-center justify-center">
-    <div class="animate-spin-slow">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#8B5CF6"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="feather feather-loader"
-      >
-        <line x1="12" y1="2" x2="12" y2="6" />
-        <line x1="12" y1="18" x2="12" y2="22" />
-        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76" />
-        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07" />
-        <line x1="2" y1="12" x2="6" y2="12" />
-        <line x1="18" y1="12" x2="22" y2="12" />
-        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24" />
-        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93" />
-      </svg>
+  <div>
+    <div
+      class="
+        fixed
+        top-0
+        left-0
+        right-0
+        bottom-0
+        w-full
+        h-screen
+        z-50
+        overflow-hidden
+        bg-gray-700
+        opacity-75
+        flex flex-col
+        items-center
+        justify-center
+        transition-colors
+      "
+    >
+      <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+      <h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
     </div>
   </div>
 </template>
+<style scoped>
+.loader {
+  border-top-color: #8b5cf6;
+  -webkit-animation: spinner 1.5s linear infinite;
+  animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
