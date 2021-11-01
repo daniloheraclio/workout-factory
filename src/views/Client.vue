@@ -13,6 +13,7 @@
     <!-- Section add new workout -->
     <div class="flex flex-row gap-x-2">
       <div
+        @click="$router.push({ path: `${id}/create` })"
         class="
           flex
           justify-center
