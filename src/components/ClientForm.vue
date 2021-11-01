@@ -4,8 +4,11 @@
       <button class="mr-2 py-2 px-2 border border-transparent rounded-md hover:bg-purple-100" @click="cancel">
         <IconChevronLeft class="text-purple-700" />
       </button>
+      <h3 class="text-purple-800">{{ formTitle }}</h3>
       <Button :is-disabled="$v.$invalid" label="Save" @on-click="saveClient" />
     </div>
+
+    <h3 class="hidden md:inline text-purple-800">{{ formTitle }}</h3>
 
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -146,6 +149,11 @@ export default {
     if (this.clientAction !== 'add' && this.currentClient) {
       this.client = { ...this.currentClient };
     }
+  },
+  computed: {
+    formTitle() {
+      return this.clientAction === 'add' ? 'Create new client' : 'Edit client';
+    },
   },
   methods: {
     validateEmail,

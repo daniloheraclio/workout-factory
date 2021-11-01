@@ -15,7 +15,7 @@
             <p class="text-sm text-purple-500 font-semibold">Add</p>
           </div>
         </div>
-        <h3 @click="goToClients" class="uppercase text-md text-purple-700 font-semibold tracking-wide">
+        <h3 @click="goToClients" class="uppercase text-md text-purple-700 font-semibold tracking-wide cursor-pointer">
           {{ clients.length }} Clients
         </h3>
       </div>

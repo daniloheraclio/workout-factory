@@ -75,6 +75,7 @@ export default {
     async signOut() {
       await fb.auth.signOut();
       this.$store.commit('SET_USER_PROFILE', {});
+      this.$store.commit('SET_CLIENTS', {});
     },
   },
 };
