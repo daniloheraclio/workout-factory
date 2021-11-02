@@ -1,10 +1,8 @@
 <template>
-  <div class="flex flex-col min-h-90% px-2 md:px-4">
+  <LoaderSpinner v-if="!clients.length || !hasClient" />
+  <div v-else class="flex flex-col min-h-90% px-2 md:px-4">
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">Create</h1>
-    <p v-if="!clients.length || !hasClient">
-      <LoaderSpinner />
-    </p>
-    <p v-else>{{ client.name }}</p>
+    <p>{{ client.name }}</p>
   </div>
 </template>
 

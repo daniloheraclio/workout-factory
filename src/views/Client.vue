@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!client">Loading...</div>
+  <LoaderSpinner v-if="!clients.length || !hasClient" />
   <div v-else class="flex flex-col min-h-90% px-2 md:px-4">
     <div class="flex flex-row justify-between">
       <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ client.name }}</h1>
@@ -58,9 +58,10 @@ import { getAge } from './../helpers/helper-string.js';
 import Button from '../components/Button.vue';
 import Modal from '@/components/Modal.vue';
 import ClientForm from '@/components/ClientForm.vue';
+import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 export default {
-  components: { Button, Modal, ClientForm },
+  components: { Button, Modal, ClientForm, LoaderSpinner },
   props: {
     id: {
       type: String,
@@ -73,27 +74,21 @@ export default {
       client: null,
     };
   },
-  async mounted() {
-    this.findClient();
-
-    // if (!this.currentClient || !this.client) {
-    //   await this.fetchCurrentClient(this.id);
-    // }
-  },
   computed: {
     ...mapState(['clients', 'userProfile']),
     ...mapGetters(['clientsFomatted']),
     age() {
       return getAge(this.client.birthdate);
     },
+    hasClient() {
+      return this.clients.some((client) => client.id === this.id);
+    },
   },
   methods: {
     ...mapMutations(['SET_IS_LOADING']),
     ...mapActions(['fetchCurrentClient', 'deleteClient', 'editClient']),
     findClient() {
-      const hasClient = this.clients.some((client) => client.id === this.id);
-
-      if (!hasClient) this.$router.push({ path: '/clients' });
+      if (!this.hasClient) this.$router.push({ path: '/clients' });
 
       this.client = this.clientsFomatted.find((client) => client.id === this.id);
     },
@@ -125,6 +120,14 @@ export default {
         // mudar pra voltar pro current client
         this.$router.push({ path: `/clients` });
       }
+    },
+  },
+  watch: {
+    clients: {
+      immediate: true,
+      handler(c) {
+        if (c.length) this.findClient();
+      },
     },
   },
 };
