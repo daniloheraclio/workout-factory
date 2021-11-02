@@ -110,15 +110,18 @@ export default {
       }
     },
     saveClient(client) {
-      this.SET_IS_LOADING(true);
-      try {
-        this.editClient(client);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.SET_IS_LOADING(false);
-        // mudar pra voltar pro current client
-        this.$router.push({ path: `/clients` });
+      if (!this.$refs.clientForm.$v.$invalid) {
+        this.SET_IS_LOADING(true);
+        try {
+          this.editClient(client);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.SET_IS_LOADING(false);
+          // mudar pra voltar pro current client
+          // this.$router.push({ path: `/clients` });
+          this.handleModalClose();
+        }
       }
     },
   },
