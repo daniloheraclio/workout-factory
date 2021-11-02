@@ -5,7 +5,7 @@
       <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ client.name }}</h1>
       <div class="flex items-center">
         <Button :is-link="true" label="Edit" @on-click="handleOpenModalEditClient" class="mr-2" />
-        <Button label="Delete" @on-click="handleDeleteClient" />
+        <Button label="Delete" @on-click="isDeleteModalOpen = true" />
       </div>
     </div>
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ age }}</h1>
@@ -38,6 +38,29 @@
       </div>
     </div>
 
+    <Modal v-if="isDeleteModalOpen">
+      <template slot="content">
+        <div class="flex items-center justify-between border-b-2 border-gray-100 pb-3 md:hidden">
+          <button
+            class="mr-2 py-2 px-2 border border-transparent rounded-md hover:bg-purple-100"
+            @click="handleDeleteModalClose"
+          >
+            <IconChevronLeft class="text-purple-700" />
+          </button>
+          <Button label="Confirm" @on-click="handleDeleteClient" />
+        </div>
+        <div class="flex flex-col items-center justify-center m-auto h-5/6 md:block">
+          <h2 class="text-red-500 text-lg mb-3">Warning</h2>
+          <p class="text-gray-700 text-sm">Are you sure you want to delete this client?</p>
+          <p class="text-gray-700 text-sm mb-5">This action cannot be undone</p>
+          <div class="hidden md:flex justify-end items-center gap-x-2">
+            <Button :is-link="true" label="Cancel" @on-click="handleDeleteModalClose" />
+            <Button label="Confirm" @on-click="handleDeleteClient" />
+          </div>
+        </div>
+      </template>
+    </Modal>
+
     <Modal v-if="isModalOpen">
       <template slot="content">
         <ClientForm
@@ -55,13 +78,14 @@
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 import { getAge } from './../helpers/helper-string.js';
+import IconChevronLeft from '@/components/IconChevronLeft.vue';
 import Button from '../components/Button.vue';
 import Modal from '@/components/Modal.vue';
 import ClientForm from '@/components/ClientForm.vue';
 import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 export default {
-  components: { Button, Modal, ClientForm, LoaderSpinner },
+  components: { Button, Modal, ClientForm, LoaderSpinner, IconChevronLeft },
   props: {
     id: {
       type: String,
@@ -71,6 +95,7 @@ export default {
   data() {
     return {
       isModalOpen: false,
+      isDeleteModalOpen: false,
       client: null,
     };
   },
@@ -98,6 +123,9 @@ export default {
     handleModalClose() {
       this.isModalOpen = false;
     },
+    handleDeleteModalClose() {
+      this.isDeleteModalOpen = false;
+    },
     handleDeleteClient() {
       this.SET_IS_LOADING(true);
       try {
@@ -118,8 +146,6 @@ export default {
           console.log(error);
         } finally {
           this.SET_IS_LOADING(false);
-          // mudar pra voltar pro current client
-          // this.$router.push({ path: `/clients` });
           this.handleModalClose();
         }
       }
