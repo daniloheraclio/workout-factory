@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col min-h-90% px-2 md:px-4">
-    <h1 class="text-2xl text-gray-700 font-semibold mb-4">Clients</h1>
+    <div class="flex flex-row justify-between items-center mb-4">
+      <h1 class="text-2xl text-gray-700 font-semibold">Clients</h1>
+      <Button label="Add" @on-click="handleModalOpen" />
+    </div>
     <section v-for="client in clientsFomatted" :key="client.id" class="flex flex-col mb-2 hover:cursor-pointer">
       <div
         @click="getClient(client.id)"
@@ -29,25 +32,64 @@
         </div>
       </div>
     </section>
+
+    <Modal v-if="isModalOpen">
+      <template slot="content">
+        <ClientForm ref="clientForm" client-action="add" :handle-save="saveClient" @on-cancel="handleModalClose" />
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 import IconCake from '../components/IconCake.vue';
 import Status from '../components/Status.vue';
-import { mapGetters } from 'vuex';
+import Button from '../components/Button.vue';
+import Modal from '@/components/Modal.vue';
+import ClientForm from '@/components/ClientForm.vue';
 
 export default {
-  components: { IconCake, Status },
+  components: { IconCake, Status, Button, Modal, ClientForm },
+  data() {
+    return {
+      isModalOpen: false,
+    };
+  },
   computed: {
     ...mapGetters(['clientsFomatted']),
   },
   methods: {
+    ...mapMutations(['SET_IS_LOADING']),
     getGenderColor(gender) {
       return gender === 'male' ? 'bg-blue-200 text-blue-800' : 'bg-pink-200 text-pink-800';
     },
     getClient(id) {
       this.$router.push({ path: `client/${id}` });
+    },
+    handleModalOpen() {
+      this.isModalOpen = true;
+    },
+    handleModalClose() {
+      this.isModalOpen = false;
+    },
+    async saveClient(client) {
+      if (!this.$refs.clientForm.$v.$invalid) {
+        this.SET_IS_LOADING(true);
+        try {
+          await this.addClient(client);
+        } catch (error) {
+          this.$toast('Something went wrong', {
+            timeout: 2500,
+          });
+        } finally {
+          this.$toast('Client successfully updated', {
+            timeout: 2500,
+          });
+          this.handleModalClose();
+          this.SET_IS_LOADING(false);
+        }
+      }
     },
   },
 };

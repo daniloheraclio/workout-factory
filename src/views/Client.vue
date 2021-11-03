@@ -1,7 +1,7 @@
 <template>
   <LoaderSpinner v-if="!clients.length || !hasClient" />
   <div v-else class="flex flex-col min-h-90% px-2 md:px-4">
-    <div class="flex flex-row justify-between items-center mb-4">
+    <div class="flex flex-row justify-between items-center mt-1 mb-4">
       <h1 class="text-2xl text-gray-700 font-semibold">Client profile</h1>
       <MenuButton class="text-gray-500" @on-edit="handleOpenModalEditClient" @on-delete="handleOpenModalDeleteClient" />
       <div v-if="false" class="flex items-center">
@@ -141,8 +141,13 @@ export default {
       try {
         this.deleteClient(this.client.id);
       } catch (error) {
-        console.log(error);
+        this.$toast('Something went wrong', {
+          timeout: 2500,
+        });
       } finally {
+        this.$toast('Client successfully deleted', {
+          timeout: 2500,
+        });
         this.SET_IS_LOADING(false);
         this.$router.push({ path: '/clients' });
       }
@@ -153,8 +158,13 @@ export default {
         try {
           this.editClient(client);
         } catch (error) {
-          console.log(error);
+          this.$toast('Something went wrong', {
+            timeout: 2500,
+          });
         } finally {
+          this.$toast('Client successfully updated', {
+            timeout: 2500,
+          });
           this.SET_IS_LOADING(false);
           this.handleModalClose();
         }

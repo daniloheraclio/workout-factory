@@ -42,11 +42,11 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex';
 import IconUsers from '@/components/IconUsers.vue';
 import IconPlus from '@/components/IconPlus.vue';
 import Modal from '@/components/Modal.vue';
 import ClientForm from '@/components/ClientForm.vue';
-import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -84,8 +84,13 @@ export default {
         try {
           await this.addClient(client);
         } catch (error) {
-          console.log(error);
+          this.$toast('Something went wrong', {
+            timeout: 2500,
+          });
         } finally {
+          this.$toast('Client successfully updated', {
+            timeout: 2500,
+          });
           this.handleModalClose();
           this.SET_IS_LOADING(false);
           this.$router.push({ path: 'clients' });
