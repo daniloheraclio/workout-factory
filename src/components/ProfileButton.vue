@@ -2,13 +2,13 @@
   <div class="relative">
     <div
       v-click-outside="hide"
-      class="cursor-pointer relative p-0.5 bg-gradient-to-t from-purple-600 to-yellow-500 rounded-full"
+      class="cursor-pointer relative p-0.5 bg-gradient-to-t from-purple-600 to-yellow-500 rounded-full md:mr-2"
       @click="toggleOpen"
     >
       <img class="w-7 h-7 md:w-8 md:h-8 rounded-full md:ml-auto" :src="userProfile.photoURL" />
     </div>
 
-    <div v-if="isOpen" class="absolute top-9 md:top-11 right-0 py-2 w-36 bg-white shadow-lg rounded-md">
+    <div v-if="isOpen" class="absolute z-10 top-9 md:top-11 right-0 py-2 w-36 bg-white shadow-lg rounded-md">
       <ul v-for="item in items" :key="item.value">
         <li @click="hide">
           <router-link

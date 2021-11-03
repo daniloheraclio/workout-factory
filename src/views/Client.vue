@@ -3,16 +3,18 @@
   <div v-else class="flex flex-col min-h-90% px-2 md:px-4">
     <div class="flex flex-row justify-between items-center mb-4">
       <h1 class="text-2xl text-gray-700 font-semibold">Client profile</h1>
-      <IconDotsVertical @click="openClientMenu" class="text-gray-500" />
+      <MenuButton class="text-gray-500" @on-edit="handleOpenModalEditClient" @on-delete="handleOpenModalDeleteClient" />
       <div v-if="false" class="flex items-center">
         <Button :is-link="true" label="Edit" @on-click="handleOpenModalEditClient" class="mr-2" />
-        <Button label="Delete" @on-click="isDeleteModalOpen = true" />
+        <Button label="Delete" @on-click="handleOpenModalDeleteClient" />
       </div>
     </div>
     <section class="flex">
       <p>{{ client.name }}</p>
     </section>
     <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ age }}</h1>
+    <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ client.gender }}</h1>
+    <h1 class="text-2xl text-gray-700 font-semibold mb-4">{{ client.isActive }}</h1>
 
     <!-- Section add new workout -->
     <div class="flex flex-row gap-x-2">
@@ -83,14 +85,14 @@
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 import { getAge } from './../helpers/helper-string.js';
 import IconChevronLeft from '@/components/IconChevronLeft.vue';
-import IconDotsVertical from '@/components/IconDotsVertical.vue';
+import MenuButton from '@/components/MenuButton.vue';
 import Button from '../components/Button.vue';
 import Modal from '@/components/Modal.vue';
 import ClientForm from '@/components/ClientForm.vue';
 import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 export default {
-  components: { Button, Modal, ClientForm, LoaderSpinner, IconChevronLeft, IconDotsVertical },
+  components: { Button, Modal, ClientForm, LoaderSpinner, IconChevronLeft, MenuButton },
   props: {
     id: {
       type: String,
@@ -101,7 +103,6 @@ export default {
     return {
       isModalOpen: false,
       isDeleteModalOpen: false,
-      isClientMenuOpen: false,
       client: null,
     };
   },
@@ -125,6 +126,9 @@ export default {
     },
     handleOpenModalEditClient() {
       this.isModalOpen = true;
+    },
+    handleOpenModalDeleteClient() {
+      this.isDeleteModalOpen = true;
     },
     handleModalClose() {
       this.isModalOpen = false;
@@ -155,9 +159,6 @@ export default {
           this.handleModalClose();
         }
       }
-    },
-    openClientMenu() {
-      this.isClientMenuOpen = true;
     },
   },
   watch: {
