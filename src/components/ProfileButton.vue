@@ -5,10 +5,10 @@
       class="cursor-pointer relative p-0.5 bg-gradient-to-t from-purple-600 to-yellow-500 rounded-full"
       @click="toggleOpen"
     >
-      <img class="w-10 h-10 rounded-full md:ml-auto" :src="userProfile.photoURL" />
+      <img class="w-7 h-7 md:w-8 md:h-8 rounded-full md:ml-auto" :src="userProfile.photoURL" />
     </div>
 
-    <div v-if="isOpen" class="absolute top-14 right-0 py-2 w-36 bg-white shadow-lg rounded-md">
+    <div v-if="isOpen" class="absolute top-9 md:top-11 right-0 py-2 w-36 bg-white shadow-lg rounded-md">
       <ul v-for="item in items" :key="item.value">
         <li @click="hide">
           <router-link
