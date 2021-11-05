@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import IconCake from '../components/IconCake.vue';
 import Status from '../components/Status.vue';
 import Button from '../components/Button.vue';
@@ -60,6 +60,7 @@ export default {
     ...mapGetters(['clientsFomatted']),
   },
   methods: {
+    ...mapActions(['addClient']),
     ...mapMutations(['SET_IS_LOADING']),
     getGenderColor(gender) {
       return gender === 'male' ? 'bg-blue-200 text-blue-800' : 'bg-pink-200 text-pink-800';
