@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-40 md:hidden">
+  <div class="fixed inset-0 z-40 md:hidden backdrop-filter backdrop-blur-sm">
     <div class="flex flex-col md:hidden relative z-10 h-full w-72 bg-gray-50 border-r border-gray-400">
       <button class="absolute top-2 right-2 focus:text-gray-800 focus:outline-none" @click="handleCloseMenu">
         <IconX class="w-5 h-5 text-gray-500" />
