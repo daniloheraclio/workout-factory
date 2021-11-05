@@ -81,83 +81,88 @@
       </p>
     </div>
 
-    <br />
-    <!-- Start with workout A -->
-    <hr />
-    <br />
-    <div class="mb-3" v-for="(workout, index) in plan.workouts" :key="index">
-      <p>Workout A</p>
+    <!-- Start Workout looping -->
 
-      <div v-for="exercise in workout.exercises" :key="exercise.id" class="relative flex gap-2 max-w-[95%]">
-        <div class="flex-1 min-w-[240px]">
-          <p class="text-sm text-gray-600">Exercise</p>
-          <input
-            v-model.trim="exercise.name"
-            class="py-1.5"
-            type="text"
-            name="exercise_name"
-            id=""
-            placeholder="name"
-          />
-        </div>
-        <div class="flex-1 max-w-[72px]">
-          <p class="text-sm text-gray-600">Sets</p>
-          <input
-            v-model.trim="exercise.sets"
-            class="py-1.5 max-w-[72px]"
-            type="text"
-            name="exercise_sets"
-            id=""
-            placeholder="reps"
-          />
-        </div>
-        <div class="flex-1 max-w-[72px]">
-          <p class="text-sm text-gray-600">Reps</p>
-          <input
-            v-model.trim="exercise.reps"
-            class="py-1.5 max-w-[72px]"
-            type="text"
-            name="exercise_reps"
-            id=""
-            placeholder="sets"
-          />
-        </div>
-        <div class="flex-1 max-w-[72px]">
-          <p class="text-sm text-gray-600">Weight</p>
-          <input
-            v-model.trim="exercise.weight"
-            class="py-1.5 max-w-[72px]"
-            type="text"
-            name="exercise_weight"
-            id=""
-            placeholder="weight"
-          />
+    <div v-for="(workout, index) in plan.workouts" :key="index" class="mb-3">
+      <div>
+        <p>Workout {{ workout.division }}</p>
+
+        <div v-for="exercise in workout.exercises" :key="exercise.id" class="relative flex gap-2 max-w-[95%]">
+          <div class="flex-1 min-w-[240px]">
+            <p class="text-sm text-gray-600">Exercise</p>
+            <input
+              v-model.trim="exercise.name"
+              class="py-1.5"
+              type="text"
+              name="exercise_name"
+              id=""
+              placeholder="name"
+            />
+          </div>
+          <div class="flex-1 max-w-[72px]">
+            <p class="text-sm text-gray-600">Sets</p>
+            <input
+              v-model.trim="exercise.sets"
+              class="py-1.5 max-w-[72px]"
+              type="text"
+              name="exercise_sets"
+              id=""
+              placeholder="reps"
+            />
+          </div>
+          <div class="flex-1 max-w-[72px]">
+            <p class="text-sm text-gray-600">Reps</p>
+            <input
+              v-model.trim="exercise.reps"
+              class="py-1.5 max-w-[72px]"
+              type="text"
+              name="exercise_reps"
+              id=""
+              placeholder="sets"
+            />
+          </div>
+          <div class="flex-1 max-w-[72px]">
+            <p class="text-sm text-gray-600">Weight</p>
+            <input
+              v-model.trim="exercise.weight"
+              class="py-1.5 max-w-[72px]"
+              type="text"
+              name="exercise_weight"
+              id=""
+              placeholder="weight"
+            />
+          </div>
+
+          <div class="absolute -right-10 top-5 mt-0.5 px-1 rounded-md hover:bg-purple-200">
+            <button class="py-1" type="button" @click="handleEditWeight(exercise)">
+              <IconPencil />
+            </button>
+          </div>
         </div>
 
-        <div class="absolute -right-10 top-5 mt-0.5 px-1 rounded-md hover:bg-purple-200">
-          <button class="py-1" type="button" @click="handleEditWeight">
-            <IconPencil />
-          </button>
-        </div>
+        <!-- Button to add another exercise for this same workout  -->
+        <Button label="Add exercise" @on-click="addExercise(index)" />
       </div>
     </div>
-
-    <!-- Button to add another exercise for this same workout A -->
-    <Button label="Add exercise" @on-click="addExercise" />
-
-    <hr />
-
-    <!-- la em baixo add another button to add more workouts ex: Workout B Workout C etc-->
-    <button type="button">Add Workout</button>
+    <Button v-if="canAddWorkout" label="Add Workout" @on-click="addWorkout()" />
   </div>
 </template>
 
 <script>
+import { uid } from 'uid';
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import Button from '@/components/Button.vue';
 import LoaderSpinner from '@/components/LoaderSpinner.vue';
 import IconPencil from '@/components/IconPencil.vue';
+
+const workoutMap = {
+  0: 'A',
+  1: 'B',
+  2: 'C',
+  3: 'D',
+  4: 'E',
+};
 
 export default {
   components: { Button, LoaderSpinner, IconPencil },
@@ -203,6 +208,9 @@ export default {
     hasClient() {
       return this.clients.some((client) => client.id === this.id);
     },
+    canAddWorkout() {
+      return this.plan.workouts.length < 5;
+    },
   },
   methods: {
     findClient() {
@@ -213,8 +221,28 @@ export default {
     handleEditWeight(row) {
       console.log(row);
     },
-    addExercise() {
-      console.log('addExercise');
+    addExercise(index) {
+      console.log('addExercise', uid(), index);
+      this.plan.workouts[index];
+    },
+    workoutMapping(index) {
+      return workoutMap[index];
+    },
+    addWorkout() {
+      if (this.canAddWorkout) {
+        this.plan.workouts.push({
+          division: workoutMap[this.plan.workouts.length],
+          exercises: [
+            {
+              id: uid(),
+              name: '',
+              sets: '',
+              reps: '',
+              weight: '',
+            },
+          ],
+        });
+      }
     },
   },
   validations: {
