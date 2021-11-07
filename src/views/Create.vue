@@ -295,6 +295,14 @@ export default {
             },
           ],
         });
+        const { workouts } = this.plan;
+
+        workouts.sort((a, b) => (a.division > b.division ? 1 : b.division > a.division ? -1 : 0));
+
+        this.plan = {
+          ...this.plan,
+          workouts,
+        };
 
         // set the next available workout (if its available)
         this.availableWorkout = this.availableWorkouts[0]?.value;
