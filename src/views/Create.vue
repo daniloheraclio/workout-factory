@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="relative">
+    <div class="relative mb-4">
       <label for="general-note" class="block text-sm font-medium text-gray-700">Note</label>
       <textarea
         id="general-note"
@@ -85,7 +85,12 @@
 
     <div v-for="(workout, index) in plan.workouts" :key="index" class="mb-3">
       <div>
-        <p>Workout {{ workout.division }}</p>
+        <div class="flex items-center justify-start">
+          <p class="text-gray-800 uppercase mr-2">Workout {{ workout.division }}</p>
+          <button type="button" @click="handleOpenModalDeleteWorkout(workout)">
+            <IconTrash class="w-4 pb-0.5 text-purple-500" />
+          </button>
+        </div>
 
         <div v-for="exercise in workout.exercises" :key="exercise.id" class="relative flex gap-2 max-w-[95%]">
           <div class="flex-1 min-w-[240px]">
@@ -140,11 +145,44 @@
           </div>
         </div>
 
-        <!-- Button to add another exercise for this same workout  -->
-        <Button label="Add exercise" @on-click="addExercise(index)" />
+        <div class="flex justify-end max-w-[95%]">
+          <!-- Button to add another exercise for this same workout  -->
+          <Button class="mt-3" label="Add exercise" @on-click="addExercise(index)" />
+        </div>
       </div>
     </div>
-    <Button v-if="canAddWorkout" label="Add Workout" @on-click="addWorkout()" />
+    <div v-if="canAddWorkout" class="flex">
+      <select id="workout-select" v-model="availableWorkout" name="workout-select" class="py-1.5 w-16 mr-2">
+        <option v-for="workout in availableWorkouts" :key="workout.value" :value="workout.value">
+          {{ workout.label }}
+        </option>
+      </select>
+      <Button label="Add Workout" @on-click="addWorkout" />
+    </div>
+
+    <Modal v-if="isDeleteWorkoutModalOpen">
+      <template slot="content">
+        <div class="flex items-center justify-between border-b-2 border-gray-100 pb-3 md:hidden">
+          <button
+            class="mr-2 py-2 px-2 border border-transparent rounded-md hover:bg-purple-100"
+            @click="handleOpenModalDeleteWorkout"
+          >
+            <IconChevronLeft class="text-purple-700" />
+          </button>
+          <Button label="Confirm" @on-click="deleteWorkout" />
+        </div>
+        <div class="flex flex-col items-center justify-center m-auto h-5/6 md:block">
+          <h2 class="text-red-500 text-lg mb-3">Warning</h2>
+          <p class="text-gray-700 text-sm mb-6">
+            Are you sure you want to delete this workout {{ selectedWorkout.division.toUpperCase() }}?
+          </p>
+          <div class="hidden md:flex justify-end items-center gap-x-2">
+            <Button :is-link="true" label="Cancel" @on-click="handleCloseModalDeleteWorkout" />
+            <Button label="Confirm" @on-click="deleteWorkout" />
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -152,20 +190,15 @@
 import { uid } from 'uid';
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
+import Modal from '@/components/Modal.vue';
 import Button from '@/components/Button.vue';
 import LoaderSpinner from '@/components/LoaderSpinner.vue';
 import IconPencil from '@/components/IconPencil.vue';
-
-const workoutMap = {
-  0: 'A',
-  1: 'B',
-  2: 'C',
-  3: 'D',
-  4: 'E',
-};
+import IconTrash from '@/components/IconTrash.vue';
+import IconChevronLeft from '@/components/IconChevronLeft.vue';
 
 export default {
-  components: { Button, LoaderSpinner, IconPencil },
+  components: { Modal, Button, LoaderSpinner, IconPencil, IconTrash, IconChevronLeft },
   props: {
     id: {
       type: String,
@@ -174,6 +207,9 @@ export default {
   },
   data() {
     return {
+      isDeleteWorkoutModalOpen: false,
+      selectedWorkout: null,
+      availableWorkout: 'b',
       textMaxLength: 400,
       plan: {
         planName: '',
@@ -186,7 +222,7 @@ export default {
             division: 'A',
             exercises: [
               {
-                id: 'asdasdasd',
+                id: uid(),
                 name: '',
                 sets: '',
                 reps: '',
@@ -209,7 +245,20 @@ export default {
       return this.clients.some((client) => client.id === this.id);
     },
     canAddWorkout() {
-      return this.plan.workouts.length < 5;
+      return this.plan.workouts.length < 5 || this.availableWorkouts.length;
+    },
+    availableWorkouts() {
+      const allWorkouts = [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+        { value: 'c', label: 'C' },
+        { value: 'd', label: 'D' },
+        { value: 'e', label: 'E' },
+      ];
+
+      const usedWorkouts = this.plan.workouts.map((workout) => workout.division.toLowerCase());
+
+      return allWorkouts.filter((el) => !usedWorkouts.includes(el.value));
     },
   },
   methods: {
@@ -225,13 +274,17 @@ export default {
       console.log('addExercise', uid(), index);
       this.plan.workouts[index];
     },
-    workoutMapping(index) {
-      return workoutMap[index];
+    handleOpenModalDeleteWorkout(index) {
+      this.selectedWorkout = index;
+      this.isDeleteWorkoutModalOpen = true;
+    },
+    handleCloseModalDeleteWorkout() {
+      this.isDeleteWorkoutModalOpen = false;
     },
     addWorkout() {
       if (this.canAddWorkout) {
         this.plan.workouts.push({
-          division: workoutMap[this.plan.workouts.length],
+          division: this.availableWorkout,
           exercises: [
             {
               id: uid(),
@@ -242,7 +295,30 @@ export default {
             },
           ],
         });
+
+        // set the next available workout (if its available)
+        this.availableWorkout = this.availableWorkouts[0]?.value;
       }
+    },
+    deleteWorkout() {
+      const workoutDivision = this.selectedWorkout.division.toUpperCase();
+      const filteredWorkouts = this.plan.workouts.filter(
+        (workout) => workout.division !== this.selectedWorkout?.division
+      );
+
+      this.plan = {
+        ...this.plan,
+        workouts: filteredWorkouts,
+      };
+
+      if (this.availableWorkouts.length === 5) {
+        this.availableWorkout = this.availableWorkouts[0]?.value;
+      }
+
+      this.$toast(`Workout ${workoutDivision} deleted`, {
+        timeout: 2500,
+      });
+      this.handleCloseModalDeleteWorkout();
     },
   },
   validations: {
@@ -256,9 +332,16 @@ export default {
   watch: {
     clients: {
       immediate: true,
-      handler(c) {
-        if (c.length) this.findClient();
+      handler(clientList) {
+        if (clientList.length) this.findClient();
       },
+    },
+    canAddWorkout(newValue, oldValue) {
+      // this is the case which the users comes from none availableWorkouts to at least 1 available.
+      // Then we need to set the first one available
+      if (newValue && !oldValue) {
+        this.availableWorkout = this.availableWorkouts[0]?.value;
+      }
     },
   },
 };

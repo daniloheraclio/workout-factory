@@ -21,3 +21,14 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    info: {
+      type: Object,
+      required: false,
+      default: () => ({}),
+    },
+  },
+};
+</script>
